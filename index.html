@@ -3,37 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <title>Mail Client</title>
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <div class="main-container">
-        <div class="content-container">
-            <header>
+<div class="main-container">
+    <div class="content-container">
+        <header>
+            <div class="logo-container">
+                <img>
+                <span>Gmail 2.0</span>
+            </div>
+            <div class="search-container">
+                <input type="input" placeholder="Search here">
+            </div>
+            <div class="top-nav-container"></div>
+        </header>
+        <div class="content">
+            <div class="side-panel">
+                <div class="compose-btn"></div>
+                <div class="navigation">
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <!--Nav item icon-->
+                            <span>
 
-            </header>
-            <div class="content">
-                <div class="side-panel">
-                    <div class="compose-btn"></div>
-                    <div class="navigation">
-                        <ul class="nav-list">
-                            <li class="nav-item">
-                                <!--Nav item icon-->
-                                <span>
-                                   
                                 </span>
-                                <span>Inbox</span>
-                            </li>
-                            <li class="nav-item">
-                                
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div id="mails-content">
+                            <span>Inbox</span>
+                        </li>
+                        <li class="nav-item">
+                            <span></span>
+                            <span>Drafts</span>
+                        </li>
+                        <li class="nav-item">
+                                <span>
 
+                                </span>
+                            <span>Sent</span>
+                        </li>
+                        <li class="nav-item">
+                            <span></span>
+                            <span>Starred</span>
+                        </li>
+                        
+                        <li class="nav-item-group">
+                            
+                        </li>
+                        <li class="nav-item-group">
+
+                        </li>
+
+                    </ul>
                 </div>
+            </div>
+            <div id="mails-content">
+
             </div>
         </div>
     </div>
-    <script src="script.js" type="module"></script>
+</div>
+<script src="script.js" type="module"></script>
 </body>
 </html>

@@ -2,3 +2,33 @@ html, body {
   height: 100%;
   width: 100%;
 }
+header {
+    display: flex;
+}
+.content-container {
+    height: 100%;
+}
+.content {
+    
+}
+.logo-container {
+    margin-left: 1em;
+    margin-right: 2em;
+}
+body {
+    background-image: url("/images/funny.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.nav-list {
+    margin-top: 3em;
+    width: 107px;
+    border: 10px solid gray;  
+    border-radius: 10px;
+    padding: 20px;
+    margin: 0px;
+}
+
+
