@@ -13,7 +13,11 @@ class Auth {
       }
     })
   }
-
+  
+  bindSignOut(id) {
+    const btn = document.getElementById(id);
+    btn.addEventListener("click", () => signOut(this.auth));
+  }
 }
 
 export { Auth };

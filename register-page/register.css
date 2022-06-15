@@ -1,0 +1,28 @@
+.register-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    vertical-align: middle;
+    margin-top: 3em;
+}
+.register-info {
+    min-height: 50%;
+    height:100%;
+    min-width: 50%;
+    width:70%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.register-details {
+    margin-bottom: 1rem;
+}
+.register-input {
+    padding: 0.5rem 0.5rem;
+}
+.register-btn {
+    width:100%;
+}

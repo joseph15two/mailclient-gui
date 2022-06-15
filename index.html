@@ -4,82 +4,33 @@
 <head>
     <meta charset="UTF-8">
     <title>Mail Client</title>
-    <link rel="stylesheet" href="style.css" />
+    <link href="index.css" rel="stylesheet" />
+    <link href="/mail-page/mail.css" rel="stylesheet" />
 </head>
 
 <body>
-    <div class="main-container">
-        <div class="content-container">
-            <header>
-                <div class="logo-container">
-                    <img class="logo-image" src="/images/barb.png">
-                    <span class="logo-text">Barbarian</span>
-                </div>
-                <div class="search-container">
-                    <input class="searchbox" type="input" placeholder="Search here">
-                </div>
-                <div class="top-nav-container"></div>
-            </header>
-            <div class="content">
-                <div class="side-panel">
-                    <div class="compose-btn"></div>
-                    <div class="navigation">
-                        <ul class="nav-list">
-                            <li class="nav-item">
-                                <span class="align-nav-item">
-                                    <span class="icon-container">
-                                        <img class="icon" src="/icons/mail-icon.png">
-                                    </span>
-                                    <span class="nav-label">Inbox</span>
-                                </span>
-                            </li>
-                            <li class="nav-item">
-                                <span class="align-nav-item">
-                                    <span class="icon-container">
-                                        <img class="icon" src="/icons/drafts-icon.png">
-                                    </span>
-                                    <span class="nav-label">Drafts</span>
-                                </span>
-                            </li>
-                            <li class="nav-item">
-                                <span class="align-nav-item">
-                                    <span class="icon-container">
-                                        <img class="icon" src="/icons/sent-icon.png">
-                                    </span>
-                                    <span class="nav-label">Sent</span>
-                                </span>
-                            </li>
-                            <li class="nav-item">
-                                <span class="align-nav-item">
-                                    <span class="icon-container">
-                                        <img class="icon" src="/icons/starred-icon.png">
-                                    </span>
-                                    <span class="nav-label">Starred</span>
-                                </span>
-                            </li>
-
-                            <li class="nav-item-group">
-
-                            </li>
-                            <li class="nav-item-group">
-
-                            </li>
-
-                        </ul>
-                    </div>
-                </div>
-                <div id="mails-content">
-
-                </div>
-            </div>
+    <header class="default-header">
+        <div class="logo-container">
+            <img class="logo-image img" src="/images/barb.png">
         </div>
-        <template>
-            <div>
-                <h1></h1>
+    </header>
+        <main>
+            <div class="options">
+                <h1>Barb Mail</h1>
+                <h3>Not affliated with SuperCell</h3>
+                <div>
+                    <a href="/login-page/login.html">
+                        <button class="btn">Login</button>
+                    </a>
+                    <a href="/register-page/register.html">
+                        <button class="btn">Register</button>
+                    </a>
+                </div>
+                <a href="/mail-page/mail.html">
+                    <button class="btn">Test mail page</button>
+                </a>
             </div>
-        </template>
-    </div>
-    <script src="script.js" type="module"></script>
+        </main>
 </body>
 
 </html>

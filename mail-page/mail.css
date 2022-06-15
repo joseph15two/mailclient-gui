@@ -1,29 +1,23 @@
 /* --- main body tag styles --- */
-html, body {
+.mail-html {
     height: 100%;
     width: 100%;
     margin: 0;
     font-family: 'Fuzzy Bubbles';
     font-size: 20px;
 }
-body {
+.mail-body {
     background-image: url("/images/cloud.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
 
-header {
+.mail-header {
     display: flex;
     border: 3px solid gray;
     border-radius: 10px;
     width: inherit;
-    padding: 1em;
-    padding-left: 0.5rem;
-    margin-bottom: 0.4rem;
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
-    margin-top: 0.4rem;
 }
 /* --- content container and content div styles --- */
 .content-container {
@@ -38,15 +32,6 @@ header {
     margin-left: 0;
     margin-right: 4em;
     max-width: 9%;
-}
-.logo-image {
-    width: 22px;
-    height: 29px;
-    margin-right: 5px;
-}
-.logo-image:hover {
-    -webkit-transform: scaleX(-1);
-    transform: scaleX(-1);
 }
 .logo-text {
     font-size: 1.5vw;
@@ -80,7 +65,12 @@ header {
 }
 .nav-item {
     padding: 3px;
-    border: 1px solid;
+    height: 1.5rem;
+}
+.nav-item:hover {
+    background-color: rgba(235, 235, 224, 50%);
+    border-radius: 5px;
+    cursor: pointer;
 }
 .nav-label {
 }
@@ -97,4 +87,3 @@ header {
 .nav-label {
     font-size: 1vw;
 }
-

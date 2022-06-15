@@ -1,0 +1,87 @@
+html, body{
+  margin:0 auto;
+  height:100%;
+  font-family: Arial, Helvetica, sans-serif;
+  --nav-height: 70px;
+}
+.default-header {
+    display: flex;
+    padding: 1em;
+    padding-left: 0.5rem;
+    margin-bottom: 0.4rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    margin-top: 0.4rem;
+}
+main {
+  height:100%;
+}
+
+.options {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    
+}
+
+.options h1 {
+    font-size: 4rem;
+}
+.options h3 {
+    color: grey;
+}
+.options a {
+    text-decoration: none;
+}
+.options .btn {
+    width: 140px;
+    margin: 1rem
+}
+/* For buttons */
+.btn {
+    border: none;
+    border-radius: 7px;
+    padding: 1rem 2rem;
+    transition: all 200ms ease;
+}
+.btn:hover {
+    cursor: pointer;
+    background-color: lightgray;
+}
+.btn:active {
+    transform: scale(1.1);
+    background-color: gray;
+}
+.back-btn {
+    padding: 0.6em 1.5rem;
+    margin-left: 1em;
+}
+/* For input styles */
+.input {
+  border: 1px solid lightslategray;
+  border-radius:7px;
+  padding: 1rem 0.5rem;
+}
+
+.input:focus-visible {
+  outline:1px solid lightskyblue;
+}
+
+/* for logo image styling */
+@keyframes spinning {
+    from { transform: rotate(0deg) }
+    to { transform: rotate(360deg) }
+}
+.logo-image {
+    width: 22px;
+    height: 29px;
+    margin-right: 5px;
+}
+.img:hover {
+    animation-name: spinning;
+    animation-duration: 0.01s;
+    animation-iteration-count: infinite;
+    /* linear | ease | ease-in | ease-out | ease-in-out */
+    animation-timing-function: linear;
+}

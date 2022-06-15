@@ -1,0 +1,41 @@
+label {
+    margin-bottom: 0.5rem;
+    display:block;
+}
+
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    vertical-align: middle;
+    margin-top: 3em;
+}
+.login-info {
+    min-height: 50%;
+    height:100%;
+    min-width: 50%;
+    width:70%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.login-details {
+    margin-bottom: 1rem;
+}
+.login-input {
+    padding: 0.5rem 0.5rem;
+}
+.login-btn {
+    width:100%;
+}
+
+.img-container {
+    width: 100%;
+    text-align: center;
+    
+}
+.login-image {
+    margin: auto;
+}
