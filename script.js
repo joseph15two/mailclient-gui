@@ -1,1 +1,1 @@
-import {loginPage, userInstance} from "imap.js"
+//import {loginPage, userInstance} from "./imap.js"

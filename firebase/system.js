@@ -8,7 +8,12 @@ class System {
     this.app = initializeApp(firebaseConfig);
     this.db = getDatabase(this.app);
     this.authApp = new Auth();
+    
+    System.getCookie = Auth.getCookie
+    System.setCookie = Auth.setCookie
   }
 }
+
+
 
 export { System };

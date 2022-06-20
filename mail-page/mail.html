@@ -2,88 +2,119 @@
 <html lang="en" class="mail-html">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Barbarian Mail</title>
-    <link href="/index.css" rel="stylesheet" />
-    <link href="./mail.css" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <title>Barbarian Mail</title>
+  <link href="/index.css" rel="stylesheet" />
+  <link href="./mail.css" rel="stylesheet" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;400&display=swap" rel="stylesheet">
 </head>
 
 <body class="mail-html mail-body">
-    <div class="main-container">
-        <div class="content-container">
-            <header class="default-header mail-header">
-                <div class="logo-container">
-                    <img class="logo-image img" src="/images/barb.png">
-                    <span class="logo-text">Barb-Mail</span>
-                </div>
-                <div class="search-container">
-                    <input class="searchbox" placeholder="Search here">
-                </div>
-                <div class="top-nav-container"></div>
-            </header>
-            <div class="content">
-                <div class="side-panel">
-                    <div class="compose-btn"></div>
-                    <div class="navigation">
-                        <ul class="nav-list">
-                            <li class="nav-item">
-                                <span class="align-nav-item">
-                                    <span class="icon-container">
-                                        <img class="icon" src="/icons/mail-icon.png">
-                                    </span>
-                                    <span class="nav-label">Inbox</span>
-                                </span>
-                            </li>
-                            <li class="nav-item">
-                                <span class="align-nav-item">
-                                    <span class="icon-container">
-                                        <img class="icon" src="/icons/drafts-icon.png">
-                                    </span>
-                                    <span class="nav-label">Drafts</span>
-                                </span>
-                            </li>
-                            <li class="nav-item">
-                                <span class="align-nav-item">
-                                    <span class="icon-container">
-                                        <img class="icon" src="/icons/sent-icon.png">
-                                    </span>
-                                    <span class="nav-label">Sent</span>
-                                </span>
-                            </li>
-                            <li class="nav-item">
-                                <span class="align-nav-item">
-                                    <span class="icon-container">
-                                        <img class="icon" src="/icons/starred-icon.png">
-                                    </span>
-                                    <span class="nav-label">Starred</span>
-                                </span>
-                            </li>
-
-                            <li class="nav-item-group">
-
-                            </li>
-                            <li class="nav-item-group">
-
-                            </li>
-
-                        </ul>
-                    </div>
-                </div>
-                <div id="mails-content">
-                    <li class="mail-list">
-
-                    </li>
-
-                </div>
-            </div>
+  <div class="popupContainer">
+    <div style="width:100vw; height:100vh; background-color: white; text-align:center">LOADING</div>
+  </div>
+  <div class="main-container">
+    <div class="content-container">
+      <header class="default-header mail-header border">
+        <div class="logo-container">
+          <img class="logo-image img" src="/icons/barb.png">
+          <span class="logo-text">Barb-Mail</span>
         </div>
-        <template>
-            <div>
-                <h1></h1>
-            </div>
-        </template>
+        <div class="search-container">
+          <input class="searchbox" placeholder="Search here">
+        </div>
+        <div class="top-nav-container"></div>
+      </header>
+      <div class="content">
+        <div class="side-panel border">
+          <div class="compose-btn">
+            <button id="mail-compose">Compose</button>
+          </div>
+          <div class="navigation">
+            <ul class="nav-list">
+              <li class="nav-item">
+                <span class="align-nav-item">
+                  <span class="icon-container">
+                    <img class="icon" src="/icons/mail-icon.png">
+                  </span>
+                  <span class="nav-label">Inbox</span>
+                </span>
+              </li>
+              <li class="nav-item">
+                <span class="align-nav-item">
+                  <span class="icon-container">
+                    <img class="icon" src="/icons/drafts-icon.png">
+                  </span>
+                  <span class="nav-label">Drafts</span>
+                </span>
+              </li>
+              <li class="nav-item">
+                <span class="align-nav-item">
+                  <span class="icon-container">
+                    <img class="icon" src="/icons/sent-icon.png">
+                  </span>
+                  <span class="nav-label">Sent</span>
+                </span>
+              </li>
+              <li class="nav-item">
+                <span class="align-nav-item">
+                  <span class="icon-container">
+                    <img class="icon" src="/icons/starred-icon.png">
+                  </span>
+                  <span class="nav-label">Starred</span>
+                </span>
+              </li>
+              <li class="nav-item">
+                <span class="align-nav-item">
+                  <span class="icon-container"></span>
+                  <span class="dropdown-content">
+                    <select>
+                      <option>
+                        More...
+                      </option>
+                      <option>
+                        Trash
+                      </option>
+                      <option>
+                        Spam
+                      </option>
+                    </select>
+                          
+                  </span>
+                </span>
+              </li>
+
+              <li class="nav-item-group">
+
+              </li>
+              <li class="nav-item-group">
+
+              </li>
+
+            </ul>
+          </div>
+        </div>
+        <div class="mail-container border">
+          <ul class="mail-list">
+            
+          </ul>
+        </div>
+      </div>
     </div>
-    <script src="./mail.js" type="module"></script>
+    <div class="composeWindow"></div>
+    <template id="mail-item-template">
+      <li class="mail-item" data-index="0">
+        <input type="checkbox" class="check" style="display: inline"></input>
+        <p class="subject-field" style="display: inline; cursor:pointer;">Subject</p>
+        <span class="author-field" style="display: inline;
+    color: #c3c3c3;">Author</span>
+      </li>
+    </template>
+  </div>
+  <script src="./mail.js" type="module"></script>
 </body>
 
 </html>

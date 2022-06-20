@@ -2,51 +2,61 @@
 <html lang="en">
 
 <head>
-    <title>Login</title>
-    <link href="/index.css" rel="stylesheet">
-    <link href="./login.css" rel="stylesheet">
+  <title>Login</title>
+  <link href="/index.css" rel="stylesheet">
+  <link href="./login.css" rel="stylesheet">
 </head>
 
 <body>
-    <header class="default-header">
-        <div class="logo-container">
-            <img class="logo-image img" src="/images/barb.png">
-        </div>
-        <a href="/index.html">
-            <button class="back-btn btn">Back</button>
-        </a>
-    </header>
-    <div class="login-container">
-        <div class="img-container">
-            <img class="login-image" src="/images/crown.png">
-        </div>
-        <div class="login-info">
-            <div>
-                <h1>
-                    Login below
-                </h1>
-            </div>
-            <form>
-                <div class="login-details">
-                    <label for="email">Email</label>
-                    <div>
-                        <input id="email" type="email" class="login-input input">
-                    </div>
-                </div>
-                <div class="login-details">
-                    <label for="password">Password</label>
-                    <div>
-                        <input id="password" type="password" class="login-input input">
-                    </div>
-                </div>
-                <button id="login-btn" type="submit" class="login-btn btn">Login</button>
-            </form>
-        </div>
-        <div class="img-container">
-            <img class="login-image" src="/images/crown2.png">
-        </div>
+  <header class="default-header">
+    <div class="logo-container">
+      <img class="logo-image img" src="/icons/barb.png">
     </div>
-    <script src="./login.js" type="module"></script>
+    <a href="/index.html">
+      <button class="back-btn btn">Back</button>
+    </a>
+  </header>
+  <div class="login-container">
+    <div class="img-container">
+      <img class="login-image img" src="/images/crown.png">
+    </div>
+    <div class="login-info">
+      <div>
+        <h1>
+          Login below
+        </h1>
+      </div>
+      <form>
+        <template>
+          <div class="login-details">
+            <label for="email">Email</label>
+            <div>
+              <input id="email" type="email" class="login-input input">
+            </div>
+          </div>
+          <div class="login-details">
+            <label for="password">Password</label>
+            <div>
+              <input id="password" type="password" class="login-input input">
+            </div>
+          </div>
+        </template>
+
+        <button type="button" id="login-btn" class="login-btn btn">
+          <div class="login-btn-content">
+            <img src="/icons/google-logo.svg" class="logo-image google-logo">
+            <span class="login-btn-text">
+              Sign in with Google
+            </span>
+          </div>
+        </button>
+      </form>
+    </div>
+    <div class="img-container">
+      <img class="login-image img" src="/images/crown2.png">
+    </div>
+  </div>
+  <script src="./login.js" type="module"></script>
 </body>
 
 </html>

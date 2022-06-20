@@ -1,89 +1,217 @@
+
 /* --- main body tag styles --- */
 .mail-html {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    font-family: 'Fuzzy Bubbles';
-    font-size: 20px;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 20px;
 }
 .mail-body {
-    background-image: url("/images/cloud.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+  background-image: url("/images/cloud.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  backdrop-filter: blur(50px) contrast(0.7) brightness(0.8);
+  color: white;
+  overflow: hidden;
 }
 
 .mail-header {
-    display: flex;
-    border: 3px solid gray;
-    border-radius: 10px;
-    width: inherit;
+  display: flex;
+  width: inherit;
+}
+.border {
+  border-radius: 10px;
+  border: 1px solid #3c3c3c;
 }
 /* --- content container and content div styles --- */
 .content-container {
-    height: 100%;
+  height: 100%;
+  padding: 0.5em;
 }
 .content {
-    margin-top: 0.4rem;
+  display: flex;
+  margin-top: 0.4rem;
+  max-height: auto;
 }
 /* --- logo container and nested elements styles --- */
 .logo-container {
-    display: flex;
-    margin-left: 0;
-    margin-right: 4em;
-    max-width: 9%;
+  display: flex;
+  margin-left: 0;
+  margin-right: 4em;
+  max-width: 9%;
 }
 .logo-text {
-    font-size: 1.5vw;
+  font-size: 1.5vw;
 }
 /* --- search container and input styles  --- */
 .search-container {
-    display: flex;
-    min-width: 40%
+  display: flex;
+  min-width: 40%;
 }
 .searchbox {
-    border: 1px solid black;
-    border-radius: 5px;
-    width: 50%;
+  width: 50%;
+  border: 1px solid;
+  border-radius: 5px;
 }
 /* --- side panel and nested navigation and other elements styles --- */
 .side-panel {
-    padding-left: 0.5rem;
-    max-width: 12%;
+  min-width: 12%;
+  padding: 0.75em;
+  margin-right: 0.4em;
+  height: 50%;
 }
-.nav-list {
-    border: 3px solid gray;  
-    border-radius: 10px;
-    padding: 8px;
-    margin: 0px;
-    list-style-type: none;
+.nav-list { 
+  border-radius: 10px;
+  padding: 0;
+  margin: 0px;
+  margin-top: 0.5em;
+  list-style-type: none;
 }
 .align-nav-item {
-    display: flex;
-    height: 1.4rem;
-    align-items: center;
+  display: flex;
+  height: 1.4rem;
+  align-items: center;
 }
 .nav-item {
-    padding: 3px;
-    height: 1.5rem;
+  padding: 3px;
+  height: 1.5rem;
 }
 .nav-item:hover {
-    background-color: rgba(235, 235, 224, 50%);
-    border-radius: 5px;
-    cursor: pointer;
+  background-color: rgba(235, 235, 224, 50%);
+  border-radius: 5px;
+  cursor: pointer;
 }
 .nav-label {
 }
 .icon-container {
-    padding: 0;
-    padding-top: 3px;
-    margin: 0;
+  padding: 0;
+  padding-top: 3px;
+  margin: 0;
 }
 .icon{
-    width: 1vw;
-    height: 1vw;
-    margin-right: 0.5em;
+  width: 1vw;
+  height: 1vw;
+  margin-right: 0.5em;
 }
 .nav-label {
-    font-size: 1vw;
+  font-size: 1vw;
 }
+
+#mail-compose {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 5px;
+  padding: 12px 8px;
+  cursor: pointer;
+  filter: drop-shadow(0px 0px 0px white);
+  transition: filter ease-in-out 0.4s;
+}
+
+#mail-compose:hover {
+  filter: drop-shadow(0px 0px 6px white);
+}
+
+.mail-container {
+  width: 85%;
+  display: flex;
+  flex-direction: column;
+  padding: 0.75em;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-content: flex-start;
+  height: 80vh;
+  max-height: 800px;
+  overflow-y: scroll;
+}
+
+.popupContainer{
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.popupContainer * {
+  pointer-events: all;
+}
+
+.popupPanel {
+  padding: 2em;
+  border-radius: 20px;
+  border: #302b2b 1px solid;
+  box-sizing: border-box;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.popupContainer * .closeButton {
+  background: none;
+  border: none;
+  color: white;
+  font-family: 'Source Sans Pro';
+  font-size: 24px;
+  cursor: pointer;
+  display: block;
+}
+
+.popupContent {
+  margin-top: 2em;
+}
+
+.popupContent iframe {
+  display: block;
+  width: 100%;
+  border: none;
+  border-top: darkgray solid 1px;
+  margin-top: 2em;
+  padding-top: 2em;
+  overflow: visible;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #00000000;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(#84d7be, #d2aa65) no-repeat center fixed;
+  border-radius: 8px;
+}
+
+.composeWindow {
+  position: fixed;
+  width: 40vw;
+  left: 56vw;
+  top: 40vh;
+  height: 60vh;
+}
+
+/*.nav-dropdown{
+  position: relative;
+  display: inline-block;
+}
+.dropdown-content{
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 16px;
+  z-index: 1;
+}
+.nav-dropdown:hover .dropdown-content {
+  display: block;
+}*/

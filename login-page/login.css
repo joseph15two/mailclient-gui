@@ -1,41 +1,52 @@
 label {
-    margin-bottom: 0.5rem;
-    display:block;
+  margin-bottom: 0.5rem;
+  display: block;
 }
-
+/* main containers for certain elements */
 .login-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
-    vertical-align: middle;
-    margin-top: 3em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  margin-top: 10em;
 }
 .login-info {
-    min-height: 50%;
-    height:100%;
-    min-width: 50%;
-    width:70%;
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+  min-height: 50%;
+  height:100%;
+  min-width: 50%;
+  width: 60%;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 .login-details {
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 .login-input {
-    padding: 0.5rem 0.5rem;
+  padding: 20px 20px;
 }
+/* login button styles */
 .login-btn {
-    width:100%;
+  display: flex;
+  width:100%;
 }
-
+.login-btn-text {
+  font-size: 1.5em;
+}
+.login-btn-content {
+  display: flex;
+}
+/* image related styles for login page */
 .img-container {
-    width: 100%;
-    text-align: center;
-    
+  width: 100%;
+  text-align: center;
 }
 .login-image {
-    margin: auto;
+  margin: auto;
+}
+
+.google-logo {
+  width: auto;
+  height: auto;
 }
