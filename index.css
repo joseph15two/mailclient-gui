@@ -12,13 +12,13 @@ html, body{
 main {
   height:100%;
 }
-
+/* main page title and name styles */
 .options {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  
 }
 .options h1 {
     font-size: 4rem;

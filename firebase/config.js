@@ -1,3 +1,4 @@
+// firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyBogVGZABa7o5s5IM6ejqYdutNWeBc4ELc",
   authDomain: "mail-server-35857.firebaseapp.com",

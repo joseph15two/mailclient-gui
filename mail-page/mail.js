@@ -1,3 +1,4 @@
+//import necessary modules
 import { System } from "/firebase/system.js";
 
 const mailItemTemplate = document.getElementById("mail-item-template");
@@ -294,39 +295,24 @@ class MailSystem {
       popup.cont.appendChild(iframe)
     })
   }
-
-  async testsendsmtp() {
-    let req = new XMLHttpRequest();
-    req.open("POST", "https://SmtpImap-Mail-server.lioliver.repl.co");
-    req.send(JSON.stringify({
-      type: "smtp",
-      action: "test",
-      email: system.authApp.user.email,
-      user: system.authApp.user,
-      refToken: system.authApp.user.refreshToken,
-      accessToken: System.getCookie("oauthToken")
-    }))
-    // log after finished
-    req.onreadystatechange = _ => {
-      if (req.readyState === 4)
-        console.log(req)
-    }
-  }
 }
-
+// calculates the size the iframe should be based on content amount
 window.resizeIframe = function(iframe) {
   iframe.height = Math.max(iframe.contentWindow.document.body.scrollHeight, 128) + "px";
 } 
 
+// call the class mailSystem();
 let mailsystem = new MailSystem();
 
-let collapse = document.getElementsByClassName("collapse");
 
+let collapse = document.getElementsByClassName("collapse");
+// this is for the collapsible nav item labeled as "More..." on the gui sidepanel
 for (let i = 0; i < collapse.length; i++) {
     collapse[i].addEventListener("click", function() {
         let icon = document.querySelector(".more-icon");
         let label = document.querySelector(".collapse-label");
         icon.classList.toggle("active");
+        // conditional to change label based on if the collapsible is open or closed
         if (icon.classList.contains("active")) {
           label.innerText = "Less";
         }
@@ -334,7 +320,7 @@ for (let i = 0; i < collapse.length; i++) {
           label.innerText = "More...";
         }
         let content = this.nextElementSibling;
-     
+        // changes height depending on collapsible status
         if (content.style.maxHeight){
             content.style.maxHeight = null;
         } 
