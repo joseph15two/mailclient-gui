@@ -19,37 +19,45 @@ class MailSystem {
     }
   }
 
+  // checks if the oauth token used to login is still valid
   checkOAuthToken() {
+    // checks if the user still has an ouath toke in their cookies
     if (!System.getCookie("oauthToken")) {
       let popup = this.createPopupPanel({
         content: "Your session has expired. Sending you to the login page in 3 seconds."
       })
+      // redirect user back to main page after approx 3 seconds
       setTimeout(_=>{
         window.location.assign("/index.html")
-      }, 3500)
+      }, 3000)
     }
   }
 
   // Bind all the listeners
   bindListeners() {
+    // adds a click event listener for the compose button
     document.getElementById("mail-compose").addEventListener("click", e => {
       this.toggleComposeBox();
     });
+    // adds a click event listener for the send button in the compose window
     document.querySelector(".composeSubmit").addEventListener("click", e => {
       this.handleCompose();
     });
-
+    // get the page navigation input element
     let pageInput = document.querySelector(".pageInput")
+    // detects changes in value of the page navigation input and refreshes the inbox when there is change
     pageInput.addEventListener("change", e=>{
       this.refreshInbox()
     })
-
+    // for clearing selection of side panel nav item
     let clearNavSelection = _=>{
       navs.forEach(v=>{
         v.dataset.selected = false
       })
     }
+    // select all navigation items in the sidepanel
     let navs = document.querySelectorAll(".nav-item[data-address]")
+    // adds a click event listener for each nav item that will switch to approriate page
     navs.forEach(box=>{
       box.addEventListener("click", _=>{
         if (box.dataset.selected == "true")
@@ -61,16 +69,16 @@ class MailSystem {
       })
     })
   }
-
+  // get mail items depending on which button the user has selected in the side panel navigation
   getNavigationInbox() {
     let navs = Array.from(document.querySelectorAll(".nav-item[data-address]"));
     return navs.find(box=>box.dataset.selected == "true").dataset.address;
   }
-
+  // get the current page number for the page navigation of mail list
   getPageNumber() {
     return document.querySelector(".pageInput").value;
   }
-
+  // open or close the compose window 
   toggleComposeBox() {
     let elem = document.querySelector(".composeWindow")
     if (elem.dataset.active == "true")
@@ -81,20 +89,25 @@ class MailSystem {
 
   // Handle the compose being submitted; send an email
   handleCompose() {
-    let inputs = Array.from(document.querySelectorAll(".composeWindow form textarea")).map(v=>v.value);
+    let inputs = document.querySelectorAll(".composeWindow form textarea");
     this.sendMail({
-      to: inputs[0],
-      subject: inputs[1],
-      body: inputs[2],
+      to: inputs[0].value,
+      subject: inputs[1].value,
+      body: inputs[2].value,
       from: system.authApp.user.email
     })
+    //run through each input and clear it
+    for (let i of inputs){
+      i.value = ""
+    }
   }
 
   // Send the email
   async sendMail(data) {
     return new Promise((res, rej) => {
+      // open a new XML request to custom mail server
       let req = new XMLHttpRequest();
-      req.open("POST", "https://SMTPTest.lioliver.repl.co")
+      req.open("POST", "https://SmtpImap-Mail-server.lioliver.repl.co")
       req.send(JSON.stringify({
         type: "smtp",
         action: "sendMail",
@@ -112,15 +125,16 @@ class MailSystem {
   // Retrieve more details about a certain mail using its uid
   async fetchMailInfo(uid) {
     return new Promise((res, rej) => {
+       // open a new XML request to custom mail server
       let req = new XMLHttpRequest();
-      req.open("POST", "https://SMTPTest.lioliver.repl.co")
+      req.open("POST", "https://SmtpImap-Mail-server.lioliver.repl.co")
       req.send(JSON.stringify({
         type: "imap",
         action: "getMail",
         uid: uid,
         accessToken: System.getCookie("oauthToken"),
       }))
-      console.log(req)
+      console.log(req, "req")
       // log after finished
       req.onreadystatechange = _ => {
         if (req.readyState === 4)
@@ -128,7 +142,7 @@ class MailSystem {
       }
     })
   }
-
+  // function that creates a popup window
   createPopupPanel({
     isPanel = true,
     width = "50vw",
@@ -137,18 +151,18 @@ class MailSystem {
     closable = true,
     content = null
   }) {
+    // create main elements
     let popupMain = document.createElement("div");
     let btnCont = document.createElement("div");
-    btnCont.classList.add("popup-close-container")
     let elem = document.createElement("div");
     document.querySelector(".popupContainer").appendChild(elem);
     if (isPanel)
       elem.classList.add("popupPanel")
-
+    // function to handle when the user clicks the "X" button in popup window
     elem.popupCloseHandler = ()=>{
       popupMain.remove();
     }
-
+    // if a closable popup is created add these elements
     if (closable) {
       let btn = btnCont.appendChild(document.createElement("button"));
       btn.innerText = "X"
@@ -157,7 +171,7 @@ class MailSystem {
       if (backgroundColor === "#ffffff")
         btn.style.color =  "black";
     }
-
+    // if popup will have content add these elements
     if (content) {
       elem.cont = elem.appendChild(document.createElement("div"))
       elem.cont.innerText = content
@@ -165,21 +179,25 @@ class MailSystem {
       if (backgroundColor === "#ffffff")
         elem.cont.style.color = "black";
     } 
-    
+    // set styles for main content elements
     elem.style.width = width;
     elem.style.height = height;
     elem.style.backgroundColor = backgroundColor;
+    btnCont.classList.add("popup-close-container")
+    // add elements to main popup window
     popupMain.appendChild(btnCont);
     popupMain.appendChild(elem);
     document.querySelector(".popupContainer").appendChild(popupMain);
+    // return element to be added to main html
     return elem;
   }
 
   // Asynchronously retrieves the inbox
   async fetchInbox() {
     return new Promise((res, rej) => {
+      // open a new XML request to custom mail server
       let req = new XMLHttpRequest();
-      req.open("POST", "https://SMTPTest.lioliver.repl.co")
+      req.open("POST", "https://SmtpImap-Mail-server.lioliver.repl.co")
       req.send(JSON.stringify({
         type: "imap",
         action: "getInbox",
@@ -202,9 +220,11 @@ class MailSystem {
 
   // Refreshes and displays the inbox; this is the top level one you want to call
   refreshInbox() {
+    // bewlow code block clears current mail list to repopulate with new mail items
     let mailContainer = document.querySelector(".mail-list");
     mailContainer.innerHTML = "";
     this.fetchInbox().then(v => {
+      console.log(v)
       if (v.status != 200)
         throw new Error("Recieved invalid response from server")
       return JSON.parse(v.responseText);
@@ -220,7 +240,7 @@ class MailSystem {
     })
   }
 
-  // Displays the inbox data given
+  // populates the gui with mail items that has been fetched
   displayInbox(inbox) {
     let mailContainer = document.querySelector(".mail-list");
     mailContainer.innerHTML = "";
@@ -228,7 +248,7 @@ class MailSystem {
       mailContainer.appendChild(this.createMailElement({
         subject: inbox[i].subject?.[0],
         author: inbox[i].from?.[0],
-        date: inbox[i]?.date?.[0]?.slice(0, -15),
+        date: inbox[i].date?.[0]?.slice(0, -15),
         uid: inbox[i].uid
       }));
     }
@@ -241,19 +261,19 @@ class MailSystem {
     date: "Unknown date",
     uid: 0
   }) {
+    // populate with data retrieved from each mail content
     let elem = mailItemTemplate.cloneNode(true).content.children[0]
     elem.querySelector(".subject-field").innerText = opts.subject;
     elem.querySelector(".author-field").innerText = opts.author;
     elem.querySelector(".date-field").innerText = opts.date;
     elem.dataset.uid = opts.uid;
-
+    // add click event listener so that the when clicked the user can view current email
     elem.querySelector(".subject-field").parentElement.addEventListener("click", e => {
       this.viewMail(elem.dataset.uid);
     });
-
     return elem
   }
-
+  // function that creates a popup window to display current selected email contents
   viewMail(uid) {
     let popup = this.createPopupPanel({
       content: " ",
@@ -262,7 +282,6 @@ class MailSystem {
       backgroundColor: "#ffffff"
     })
     this.fetchMailInfo(uid).then(v=>{
-      //console.log(v)
       popup.cont.innerHTML += "<p>To: </p>" + v.to.html
       popup.cont.innerHTML += "<p>From: </p>" + v.from.html
       let iframe = document.createElement("iframe");
@@ -278,7 +297,7 @@ class MailSystem {
 
   async testsendsmtp() {
     let req = new XMLHttpRequest();
-    req.open("POST", "https://SMTPTest.lioliver.repl.co")
+    req.open("POST", "https://SmtpImap-Mail-server.lioliver.repl.co");
     req.send(JSON.stringify({
       type: "smtp",
       action: "test",
@@ -306,8 +325,14 @@ let collapse = document.getElementsByClassName("collapse");
 for (let i = 0; i < collapse.length; i++) {
     collapse[i].addEventListener("click", function() {
         let icon = document.querySelector(".more-icon");
+        let label = document.querySelector(".collapse-label");
         icon.classList.toggle("active");
-       
+        if (icon.classList.contains("active")) {
+          label.innerText = "Less";
+        }
+        else if (!icon.classList.contains("active")) {
+          label.innerText = "More...";
+        }
         let content = this.nextElementSibling;
      
         if (content.style.maxHeight){
