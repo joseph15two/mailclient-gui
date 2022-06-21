@@ -19,6 +19,7 @@ class MailSystem {
           throw new Error("Recieved invalid response from server")
         return JSON.parse(v.responseText);
       }).then(v => {
+        console.log(v)
         this.currentInbox = v;
         this.displayInbox(v)
       }).catch(e=>{
@@ -38,18 +39,53 @@ class MailSystem {
       })
       setTimeout(_=>{
         window.location.assign("/index.html")
-      }, 3000)
+      }, 3500)
     }
   }
 
   bindListeners() {
     document.getElementById("mail-compose").addEventListener("click", e => {
-      this.openComposeBox();
+      this.toggleComposeBox();
+    });
+    document.querySelector(".composeSubmit").addEventListener("click", e => {
+      this.handleCompose();
     });
   }
 
-  openComposeBox() {
+  toggleComposeBox() {
+    let elem = document.querySelector(".composeWindow")
+    if (elem.dataset.active == "true")
+      elem.dataset.active = false
+    else
+      elem.dataset.active = true
+  }
 
+  handleCompose() {
+    let inputs = Array.from(document.querySelectorAll(".composeWindow form textarea")).map(v=>v.value);
+    this.sendMail({
+      to: inputs[0],
+      subject: inputs[1],
+      body: inputs[2],
+      from: system.authApp.user.email
+    })
+  }
+
+  async sendMail(data) {
+    return new Promise((res, rej) => {
+      let req = new XMLHttpRequest();
+      req.open("POST", "https://SMTPTest.lioliver.repl.co")
+      req.send(JSON.stringify({
+        type: "smtp",
+        action: "sendMail",
+        data: data,
+        accessToken: System.getCookie("oauthToken")
+      }))
+      // log after finished
+      req.onreadystatechange = _ => {
+        if (req.readyState === 4)
+          res()
+      }
+    })
   }
 
   async getMailInfo(uid) {
@@ -60,7 +96,7 @@ class MailSystem {
         type: "imap",
         action: "getMail",
         uid: uid,
-        accessToken: System.getCookie("oauthToken")
+        accessToken: System.getCookie("oauthToken"),
       }))
       console.log(req)
       // log after finished
@@ -79,17 +115,20 @@ class MailSystem {
     closable = true,
     content = null
   }) {
+    let popupMain = document.createElement("div");
+    let btnCont = document.createElement("div");
+    btnCont.classList.add("popup-close-container")
     let elem = document.createElement("div");
     document.querySelector(".popupContainer").appendChild(elem);
     if (isPanel)
       elem.classList.add("popupPanel")
 
     elem.popupCloseHandler = ()=>{
-      elem.remove();
+      popupMain.remove();
     }
 
     if (closable) {
-      let btn = elem.appendChild(document.createElement("button"))
+      let btn = btnCont.appendChild(document.createElement("button"));
       btn.innerText = "X"
       btn.classList.add("closeButton")
       btn.addEventListener("click", elem.popupCloseHandler)
@@ -108,6 +147,9 @@ class MailSystem {
     elem.style.width = width;
     elem.style.height = height;
     elem.style.backgroundColor = backgroundColor;
+    popupMain.appendChild(btnCont);
+    popupMain.appendChild(elem);
+    document.querySelector(".popupContainer").appendChild(popupMain);
     return elem;
   }
 
@@ -133,14 +175,14 @@ class MailSystem {
   }
 
   displayInbox(inbox) {
-    let mailContainer = document.querySelector(".mail-list")
-    console.log(inbox)
-    for (let i of inbox) {
+    let mailContainer = document.querySelector(".mail-list");
+    for (let i = inbox.length - 1; i >= 0; i--) {
       mailContainer.appendChild(this.createMailElement({
-        subject: i.subject[0],
-        author: i.from[0],
-        uid: i.uid
-      }))
+        subject: inbox[i].subject[0],
+        author: inbox[i].from[0],
+        date: inbox[i].date[0].slice(0, -15)
+        uid: inbox[i].uid
+      }));
     }
   }
 
@@ -154,28 +196,31 @@ class MailSystem {
     elem.querySelector(".author-field").innerText = opts.author;
     elem.dataset.uid = opts.uid;
 
-    elem.querySelector(".subject-field").addEventListener("click", e=>{
+    elem.querySelector(".subject-field").parentElement.addEventListener("click", e => {
       this.viewMail(elem.dataset.uid);
-    })
+    });
 
     return elem
   }
 
   viewMail(uid) {
-    console.log("view")
+    let popup = this.createPopupPanel({
+      content: " ",
+      width: "80vw",
+      height: "80vh",
+      backgroundColor: "#ffffff"
+    })
     this.getMailInfo(uid).then(v=>{
-      console.log(v)
-      let popup = this.createPopupPanel({
-        content: " ",
-        width: "80vw",
-        height: "80vh",
-        backgroundColor: "#ffffff"
-      })
+      //console.log(v)
       popup.cont.innerHTML += "<p>To: </p>" + v.to.html
       popup.cont.innerHTML += "<p>From: </p>" + v.from.html
       let iframe = document.createElement("iframe");
       iframe.addEventListener("load", _=>{window.resizeIframe(iframe)})
-      iframe.srcdoc = v.html;
+      if (v.html) {
+        iframe.srcdoc = v.html;
+      } else {
+        iframe.srcdoc = v.textAsHtml;
+      }
       popup.cont.appendChild(iframe)
     })
   }
@@ -200,7 +245,25 @@ class MailSystem {
 }
 
 window.resizeIframe = function(iframe) {
-  iframe.height = iframe.contentWindow.document.body.scrollHeight + "px";
+  iframe.height = Math.max(iframe.contentWindow.document.body.scrollHeight, 128) + "px";
 } 
 
 let mailsystem = new MailSystem();
+
+let collapse = document.getElementsByClassName("collapse");
+
+for (let i = 0; i < collapse.length; i++) {
+    collapse[i].addEventListener("click", function() {
+        let icon = document.querySelector(".more-icon");
+        icon.classList.toggle("active");
+       
+        let content = this.nextElementSibling;
+     
+        if (content.style.maxHeight){
+            content.style.maxHeight = null;
+        } 
+        else {
+            content.style.maxHeight = content.scrollHeight + "px";
+        }
+    });
+}

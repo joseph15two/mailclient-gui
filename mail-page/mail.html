@@ -67,50 +67,89 @@
                   <span class="nav-label">Starred</span>
                 </span>
               </li>
-              <li class="nav-item">
+              <li class="nav-item collapse">
                 <span class="align-nav-item">
-                  <span class="icon-container"></span>
-                  <span class="dropdown-content">
-                    <select>
-                      <option>
-                        More...
-                      </option>
-                      <option>
-                        Trash
-                      </option>
-                      <option>
-                        Spam
-                      </option>
-                    </select>
-                          
+                  <span class="icon-container more-icon">
                   </span>
+                  <span class="nav-label">More...</span>
                 </span>
               </li>
-
-              <li class="nav-item-group">
-
-              </li>
-              <li class="nav-item-group">
-
-              </li>
-
+              <div class="nav-more-items">
+                <li class="nav-item">
+                  <span class="align-nav-item">
+                    <span class="icon-container">
+                      <img class="icon" src="/icons/archived-icon.png">
+                    </span>
+                    <span class="nav-label">Archived</span>
+                  </span>
+                </li>
+                <li class="nav-item">
+                  <span class="align-nav-item">
+                    <span class="icon-container">
+                      <img class="icon" src="/icons/spam-icon.png">
+                    </span>
+                    <span class="nav-label">Spam</span>
+                  </span>
+                </li>
+                <li class="nav-item">
+                  <span class="align-nav-item">
+                    <span class="icon-container">
+                      <img class="icon" src="/icons/trash-icon.png">
+                    </span>
+                    <span class="nav-label">Trash</span>
+                  </span>
+                </li>
+              </div>
+              <template>
+                <li class="nav-item">
+                  <span class="align-nav-item">
+                    <span class="icon-container"></span>
+                    <span class="nav-group">
+                      <div class="nav-dropdown">
+                        <button type="button" class="collapse">
+                          More...
+                        </button>
+                        <div class="nav-more-items">
+                          <ul>
+                            <li>
+                              Trash
+                            </li>
+                            <li>
+                              Spam
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </span>
+                  </span>
+                </li>
+              </template>
             </ul>
           </div>
         </div>
         <div class="mail-container border">
           <ul class="mail-list">
-            
+
           </ul>
         </div>
       </div>
     </div>
-    <div class="composeWindow"></div>
+    <div class="composeWindow">
+      <form>
+        <button type="button" class="gradHighlight composeSubmit">Send</button>
+        <textarea id="toInput" placeholder="To" rows=1 style="overflow: hidden; padding: 0.75em;"></textarea>
+        <textarea id="subjectInput" placeholder="Subject" rows=1 style="overflow: hidden; padding: 0.75em;"></textarea>
+        <textarea id="bodyInput" style="height: 40vh;"></textarea>
+      </form>
+    </div>
     <template id="mail-item-template">
       <li class="mail-item" data-index="0">
         <input type="checkbox" class="check" style="display: inline"></input>
-        <p class="subject-field" style="display: inline; cursor:pointer;">Subject</p>
+        <p class="subject-field" style="display: inline; cursor:pointer; margin:0px 1em 0px 0.25em;">Subject</p>
         <span class="author-field" style="display: inline;
     color: #c3c3c3;">Author</span>
+      <span class="date-field" style="display: inline;
+    color: #c3c3c3; margin-left: auto;">Date</span>
       </li>
     </template>
   </div>
