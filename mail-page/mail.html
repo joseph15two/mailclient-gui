@@ -35,7 +35,7 @@
           </div>
           <div class="navigation">
             <ul class="nav-list">
-              <li class="nav-item">
+              <li class="nav-item" data-address="All Mail" data-selected="true">
                 <span class="align-nav-item">
                   <span class="icon-container">
                     <img class="icon" src="/icons/mail-icon.png">
@@ -43,7 +43,7 @@
                   <span class="nav-label">Inbox</span>
                 </span>
               </li>
-              <li class="nav-item">
+              <li class="nav-item" data-address="Drafts">
                 <span class="align-nav-item">
                   <span class="icon-container">
                     <img class="icon" src="/icons/drafts-icon.png">
@@ -51,7 +51,7 @@
                   <span class="nav-label">Drafts</span>
                 </span>
               </li>
-              <li class="nav-item">
+              <li class="nav-item" data-address="Sent Mail">
                 <span class="align-nav-item">
                   <span class="icon-container">
                     <img class="icon" src="/icons/sent-icon.png">
@@ -59,7 +59,7 @@
                   <span class="nav-label">Sent</span>
                 </span>
               </li>
-              <li class="nav-item">
+              <li class="nav-item" data-address="Starred">
                 <span class="align-nav-item">
                   <span class="icon-container">
                     <img class="icon" src="/icons/starred-icon.png">
@@ -83,7 +83,7 @@
                     <span class="nav-label">Archived</span>
                   </span>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" data-address="Spam">
                   <span class="align-nav-item">
                     <span class="icon-container">
                       <img class="icon" src="/icons/spam-icon.png">
@@ -126,6 +126,9 @@
               </template>
             </ul>
           </div>
+          <div class=pagenav>
+            <input type="number" class="pageInput" min=1 value=1 onchange="if (isNaN(parseInt(this.value)) || parseInt(this.value < 1)) this.value=1">
+          </div>
         </div>
         <div class="mail-container border">
           <ul class="mail-list">
@@ -145,11 +148,13 @@
     <template id="mail-item-template">
       <li class="mail-item" data-index="0">
         <input type="checkbox" class="check" style="display: inline"></input>
-        <p class="subject-field" style="display: inline; cursor:pointer; margin:0px 1em 0px 0.25em;">Subject</p>
+        <div class="mail-item-info">
+          <p class="subject-field" style="display: inline; cursor:pointer; margin:0px 1em 0px 0.25em;">Subject</p>
         <span class="author-field" style="display: inline;
     color: #c3c3c3;">Author</span>
       <span class="date-field" style="display: inline;
     color: #c3c3c3; margin-left: auto;">Date</span>
+        </div>
       </li>
     </template>
   </div>

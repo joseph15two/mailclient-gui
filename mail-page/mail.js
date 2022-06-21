@@ -14,20 +14,7 @@ class MailSystem {
 
     system.authApp.onAuthStateChanged = _ => {
       document.querySelector(".popupContainer").innerHTML = "";
-      this.refreshInbox().then(v => {
-        if (v.status != 200)
-          throw new Error("Recieved invalid response from server")
-        return JSON.parse(v.responseText);
-      }).then(v => {
-        console.log(v)
-        this.currentInbox = v;
-        this.displayInbox(v)
-      }).catch(e=>{
-        console.log(e)
-        this.createPopupPanel({
-          content: e
-        })
-      })
+      this.refreshInbox()
       //this.testsendsmtp();
     }
   }
@@ -43,6 +30,7 @@ class MailSystem {
     }
   }
 
+  // Bind all the listeners
   bindListeners() {
     document.getElementById("mail-compose").addEventListener("click", e => {
       this.toggleComposeBox();
@@ -50,6 +38,37 @@ class MailSystem {
     document.querySelector(".composeSubmit").addEventListener("click", e => {
       this.handleCompose();
     });
+
+    let pageInput = document.querySelector(".pageInput")
+    pageInput.addEventListener("change", e=>{
+      this.refreshInbox()
+    })
+
+    let clearNavSelection = _=>{
+      navs.forEach(v=>{
+        v.dataset.selected = false
+      })
+    }
+    let navs = document.querySelectorAll(".nav-item[data-address]")
+    navs.forEach(box=>{
+      box.addEventListener("click", _=>{
+        if (box.dataset.selected == "true")
+          return;
+        clearNavSelection()
+        box.dataset.selected = true;
+        pageInput.value = 1;
+        this.refreshInbox();
+      })
+    })
+  }
+
+  getNavigationInbox() {
+    let navs = Array.from(document.querySelectorAll(".nav-item[data-address]"));
+    return navs.find(box=>box.dataset.selected == "true").dataset.address;
+  }
+
+  getPageNumber() {
+    return document.querySelector(".pageInput").value;
   }
 
   toggleComposeBox() {
@@ -60,6 +79,7 @@ class MailSystem {
       elem.dataset.active = true
   }
 
+  // Handle the compose being submitted; send an email
   handleCompose() {
     let inputs = Array.from(document.querySelectorAll(".composeWindow form textarea")).map(v=>v.value);
     this.sendMail({
@@ -70,6 +90,7 @@ class MailSystem {
     })
   }
 
+  // Send the email
   async sendMail(data) {
     return new Promise((res, rej) => {
       let req = new XMLHttpRequest();
@@ -88,7 +109,8 @@ class MailSystem {
     })
   }
 
-  async getMailInfo(uid) {
+  // Retrieve more details about a certain mail using its uid
+  async fetchMailInfo(uid) {
     return new Promise((res, rej) => {
       let req = new XMLHttpRequest();
       req.open("POST", "https://SMTPTest.lioliver.repl.co")
@@ -153,7 +175,8 @@ class MailSystem {
     return elem;
   }
 
-  async refreshInbox(opts = {}) {
+  // Asynchronously retrieves the inbox
+  async fetchInbox() {
     return new Promise((res, rej) => {
       let req = new XMLHttpRequest();
       req.open("POST", "https://SMTPTest.lioliver.repl.co")
@@ -164,7 +187,10 @@ class MailSystem {
         user: system.authApp.user,
         refToken: system.authApp.user.refreshToken,
         accessToken: System.getCookie("oauthToken"),
-        opts: opts
+        opts: {
+          box: this.getNavigationInbox() || "All Mail",
+          page: this.getPageNumber() || 1
+        }
       }))
       // log after finished
       req.onreadystatechange = _ => {
@@ -174,26 +200,51 @@ class MailSystem {
     })
   }
 
+  // Refreshes and displays the inbox; this is the top level one you want to call
+  refreshInbox() {
+    let mailContainer = document.querySelector(".mail-list");
+    mailContainer.innerHTML = "";
+    this.fetchInbox().then(v => {
+      if (v.status != 200)
+        throw new Error("Recieved invalid response from server")
+      return JSON.parse(v.responseText);
+    }).then(v => {
+      console.log(v)
+      this.currentInbox = v;
+      this.displayInbox(v)
+    }).catch(e=>{
+      console.log(e)
+      this.createPopupPanel({
+        content: e
+      })
+    })
+  }
+
+  // Displays the inbox data given
   displayInbox(inbox) {
     let mailContainer = document.querySelector(".mail-list");
+    mailContainer.innerHTML = "";
     for (let i = inbox.length - 1; i >= 0; i--) {
       mailContainer.appendChild(this.createMailElement({
-        subject: inbox[i].subject[0],
-        author: inbox[i].from[0],
-        date: inbox[i].date[0].slice(0, -15)
+        subject: inbox[i].subject?.[0],
+        author: inbox[i].from?.[0],
+        date: inbox[i]?.date?.[0]?.slice(0, -15),
         uid: inbox[i].uid
       }));
     }
   }
 
+  // Creates an element for displaying the header of a mail
   createMailElement(opts = {
     subject: "No subject",
     author: "Unknown author",
+    date: "Unknown date",
     uid: 0
   }) {
     let elem = mailItemTemplate.cloneNode(true).content.children[0]
     elem.querySelector(".subject-field").innerText = opts.subject;
     elem.querySelector(".author-field").innerText = opts.author;
+    elem.querySelector(".date-field").innerText = opts.date;
     elem.dataset.uid = opts.uid;
 
     elem.querySelector(".subject-field").parentElement.addEventListener("click", e => {
@@ -210,7 +261,7 @@ class MailSystem {
       height: "80vh",
       backgroundColor: "#ffffff"
     })
-    this.getMailInfo(uid).then(v=>{
+    this.fetchMailInfo(uid).then(v=>{
       //console.log(v)
       popup.cont.innerHTML += "<p>To: </p>" + v.to.html
       popup.cont.innerHTML += "<p>From: </p>" + v.from.html
